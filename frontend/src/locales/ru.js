@@ -97,7 +97,7 @@ export default {
   'Removed from favourites': 'Убрано из избранного',
   'Favourites': 'Избранное',
   'Use only my favourites': 'Только избранное',
-  '{0} starred. The Coach will pick from these and nothing else.': '{0} в избранном. Тренер будет выбирать только из них и ни из чего больше.',
+  '{0} starred. The Coach will pick from these, plus what your plan already uses.': '{0} в избранном. Тренер будет выбирать из них и из того, что уже есть в твоём плане.',
   'Nothing starred yet. Tap the star on an exercise in the Library, and the Coach will use those from your next plan.': 'Пока ничего не добавлено. Нажми звёздочку у упражнения в Библиотеке — и Тренер учтёт их в следующем плане.',
   'No favourites yet. Tap the star on an exercise to add one.': 'Избранного пока нет. Нажмите на звезду у упражнения, чтобы добавить.',
   'No match': 'Ничего не найдено',

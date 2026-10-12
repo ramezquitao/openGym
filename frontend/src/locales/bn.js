@@ -130,7 +130,7 @@ export default {
   'Removed from favourites': 'প্রিয় থেকে সরানো হয়েছে',
   'Favourites': 'প্রিয়',
   'Use only my favourites': 'শুধু আমার পছন্দেরগুলো ব্যবহার করুন',
-  '{0} starred. The Coach will pick from these and nothing else.': '{0}টি চিহ্নিত। কোচ শুধু এগুলোর মধ্য থেকেই বাছবে, অন্য কিছু থেকে নয়।',
+  '{0} starred. The Coach will pick from these, plus what your plan already uses.': '{0}টি চিহ্নিত। কোচ এগুলোর এবং আপনার পরিকল্পনায় আগে থেকে থাকা ব্যায়ামগুলোর মধ্য থেকে বাছবে।',
   'Nothing starred yet. Tap the star on an exercise in the Library, and the Coach will use those from your next plan.': 'এখনো কিছু চিহ্নিত করা হয়নি। লাইব্রেরিতে কোনো ব্যায়ামের তারায় চাপ দিন, কোচ পরের পরিকল্পনা থেকে সেগুলো ব্যবহার করবে।',
   'No favourites yet. Tap the star on an exercise to add one.': 'এখনও কোনো প্রিয় নেই। যোগ করতে কোনো ব্যায়ামের তারকায় ট্যাপ করুন।',
   'No match': 'কিছু মেলেনি',

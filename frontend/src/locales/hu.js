@@ -101,7 +101,7 @@ export default {
   'Removed from favourites': 'Eltávolítva a kedvencekből',
   'Favourites': 'Kedvencek',
   'Use only my favourites': 'Csak a kedvenceimet használja',
-  '{0} starred. The Coach will pick from these and nothing else.': '{0} megjelölve. Az Edző csak ezek közül választ, másból nem.',
+  '{0} starred. The Coach will pick from these, plus what your plan already uses.': '{0} megjelölve. Az Edző ezek közül és a tervedben már szereplők közül választ.',
   'Nothing starred yet. Tap the star on an exercise in the Library, and the Coach will use those from your next plan.': 'Még semmit sem jelöltél meg. Érintsd meg egy gyakorlat csillagát a Könyvtárban, és az Edző a következő tervtől ezeket használja.',
   'No favourites yet. Tap the star on an exercise to add one.': 'Még nincs kedvenc. Koppints egy gyakorlat csillagára, hogy hozzáadd.',
   'No match': 'Nincs találat',

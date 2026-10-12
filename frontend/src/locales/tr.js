@@ -99,7 +99,7 @@ export default {
   'Removed from favourites': 'Favorilerden çıkarıldı',
   'Favourites': 'Favoriler',
   'Use only my favourites': 'Yalnızca favorilerimi kullan',
-  '{0} starred. The Coach will pick from these and nothing else.': '{0} işaretli. Antrenör yalnızca bunlar arasından seçer, başka bir şeyden değil.',
+  '{0} starred. The Coach will pick from these, plus what your plan already uses.': '{0} işaretli. Antrenör bunlar arasından ve planının zaten kullandıkları arasından seçer.',
   'Nothing starred yet. Tap the star on an exercise in the Library, and the Coach will use those from your next plan.': 'Henüz hiçbir şey işaretlemedin. Kitaplık\'ta bir egzersizin yıldızına dokun; Antrenör bir sonraki planda onları kullanır.',
   'No favourites yet. Tap the star on an exercise to add one.': 'Henüz favori yok. Eklemek için bir egzersizin yıldızına dokun.',
   'No match': 'Sonuç yok',

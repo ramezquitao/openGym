@@ -99,7 +99,7 @@ export default {
   'Removed from favourites': 'Quitado de favoritos',
   'Favourites': 'Favoritos',
   'Use only my favourites': 'Usar solo mis favoritos',
-  '{0} starred. The Coach will pick from these and nothing else.': '{0} marcados. El Entrenador elegirá solo de estos y de ningún otro.',
+  '{0} starred. The Coach will pick from these, plus what your plan already uses.': '{0} marcados. El Entrenador elegirá de estos, y de lo que ya tenga tu plan.',
   'Nothing starred yet. Tap the star on an exercise in the Library, and the Coach will use those from your next plan.': 'Aún no has marcado ninguno. Toca la estrella en un ejercicio de la Biblioteca y el Entrenador los usará desde tu próximo plan.',
   'No favourites yet. Tap the star on an exercise to add one.': 'Aún no hay favoritos. Toca la estrella de un ejercicio para añadirlo.',
   'No match': 'Sin resultados',

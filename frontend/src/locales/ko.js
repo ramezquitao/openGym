@@ -99,7 +99,7 @@ export default {
   'Removed from favourites': '즐겨찾기에서 제거했어요',
   'Favourites': '즐겨찾기',
   'Use only my favourites': '즐겨찾기만 사용',
-  '{0} starred. The Coach will pick from these and nothing else.': '{0}개 표시됨. 코치는 이 중에서만 고르고 다른 것은 쓰지 않습니다.',
+  '{0} starred. The Coach will pick from these, plus what your plan already uses.': '{0}개 표시됨. 코치는 이 중에서, 그리고 이미 계획에 있는 운동 중에서 고릅니다.',
   'Nothing starred yet. Tap the star on an exercise in the Library, and the Coach will use those from your next plan.': '아직 표시한 것이 없습니다. 라이브러리에서 운동의 별을 눌러 주세요. 다음 계획부터 코치가 그것들을 사용합니다.',
   'No favourites yet. Tap the star on an exercise to add one.': '아직 즐겨찾기가 없어요. 운동의 별을 탭해서 추가하세요.',
   'No match': '검색 결과 없음',

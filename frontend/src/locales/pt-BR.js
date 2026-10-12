@@ -68,7 +68,7 @@ export const PT_BR_OVERRIDES = {
   'Search {0} exercises…': 'Buscar entre {0} exercícios…',
   'Nothing picked yet. Add some exercises and they’ll show up here.': 'Nada escolhido ainda. Adicione alguns exercícios e eles aparecem aqui.',
   'Use only my favourites': 'Usar apenas os meus favoritos',
-  '{0} starred. The Coach will pick from these and nothing else.': '{0} marcados. O Treinador vai escolher só entre estes, e mais nenhum.',
+  '{0} starred. The Coach will pick from these, plus what your plan already uses.': '{0} marcados. O Treinador vai escolher entre estes, e do que o seu plano já usa.',
   'Nothing starred yet. Tap the star on an exercise in the Library, and the Coach will use those from your next plan.': 'Você ainda não marcou nenhum. Toque na estrela de um exercício na Biblioteca e o Treinador vai usá-los no seu próximo plano.',
   'No favourites yet. Tap the star on an exercise to add one.': 'Nenhum favorito ainda. Toque na estrela de um exercício para adicionar.',
   'The sets you logged for this exercise in this session will be lost.': 'As séries registradas para este exercício nesta sessão serão perdidas.',

@@ -99,7 +99,7 @@ export default {
   'Removed from favourites': 'पसंदीदा से हटाया गया',
   'Favourites': 'पसंदीदा',
   'Use only my favourites': 'केवल मेरे पसंदीदा इस्तेमाल करें',
-  '{0} starred. The Coach will pick from these and nothing else.': '{0} चिह्नित। कोच केवल इन्हीं में से चुनेगा, और किसी और से नहीं।',
+  '{0} starred. The Coach will pick from these, plus what your plan already uses.': '{0} चिह्नित। कोच इनमें से और आपकी योजना में पहले से मौजूद व्यायामों में से चुनेगा।',
   'Nothing starred yet. Tap the star on an exercise in the Library, and the Coach will use those from your next plan.': 'अभी तक कुछ भी चिह्नित नहीं किया। लाइब्रेरी में किसी व्यायाम पर स्टार दबाएँ और कोच अगली योजना से इन्हें इस्तेमाल करेगा।',
   'No favourites yet. Tap the star on an exercise to add one.': 'अभी कोई पसंदीदा नहीं। जोड़ने के लिए किसी व्यायाम पर तारे को टैप करें।',
   'No match': 'कोई परिणाम नहीं',

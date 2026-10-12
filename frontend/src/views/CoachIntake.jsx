@@ -212,7 +212,7 @@ export default function CoachIntake() {
           <div className="ob-star-t">
             <b>{t('Use only my favourites')}</b>
             <span>{favCount
-              ? t('{0} starred. The Coach will pick from these and nothing else.', favCount)
+              ? t('{0} starred. The Coach will pick from these, plus what your plan already uses.', favCount)
               : t('Nothing starred yet. Tap the star on an exercise in the Library, and the Coach will use those from your next plan.')}</span>
           </div>
           <Switch checked={!!p.favOnly} onChange={v => set({ favOnly: v })} aria-label={t('Use only my favourites')} />

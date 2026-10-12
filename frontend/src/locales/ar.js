@@ -1205,7 +1205,7 @@ export default {
   'Removed from favourites': 'أُزيل من المفضلة',
   'Favourites': 'المفضلة',
   'Use only my favourites': 'استخدم مفضّلاتي فقط',
-  '{0} starred. The Coach will pick from these and nothing else.': '{0} مميّزة. سيختار المدرّب من هذه فقط ولا شيء غيرها.',
+  '{0} starred. The Coach will pick from these, plus what your plan already uses.': '{0} مميّزة. سيختار المدرّب من هذه ومن التمارين التي تستخدمها خطتك بالفعل.',
   'Nothing starred yet. Tap the star on an exercise in the Library, and the Coach will use those from your next plan.': 'لم تميّز أي تمرين بعد. اضغط على النجمة عند تمرين في المكتبة وسيستخدمها المدرّب في خطتك القادمة.',
   'No favourites yet. Tap the star on an exercise to add one.': 'لا مفضلات بعد. اضغط النجمة على أي تمرين لإضافته.',
   'Set up your weekly routine to get going, or grab a ready-made starter plan.': 'جهّز روتينك الأسبوعي للبدء، أو خذ خطة بداية جاهزة.',

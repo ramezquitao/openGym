@@ -1156,7 +1156,7 @@ export default {
   "Removed from favourites": "Прибрано з обраного",
   "Favourites": "Обране",
   'Use only my favourites': 'Лише обране',
-  '{0} starred. The Coach will pick from these and nothing else.': '{0} в обраному. Тренер обиратиме лише з них і більше ні з чого.',
+  '{0} starred. The Coach will pick from these, plus what your plan already uses.': '{0} в обраному. Тренер обиратиме з них і з того, що вже є у твоєму плані.',
   'Nothing starred yet. Tap the star on an exercise in the Library, and the Coach will use those from your next plan.': 'Поки нічого не додано. Натисни зірочку вправи в Бібліотеці — і Тренер врахує їх у наступному плані.',
   'No favourites yet. Tap the star on an exercise to add one.': 'Обраного поки немає. Натисни зірочку біля вправи, щоб додати.',
   "{0} days per week": "Днів на тиждень: {0}",

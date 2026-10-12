@@ -99,7 +99,7 @@ export default {
   'Removed from favourites': '已取消收藏',
   'Favourites': '收藏',
   'Use only my favourites': '仅使用我的收藏',
-  '{0} starred. The Coach will pick from these and nothing else.': '已收藏 {0} 项。教练只会从这些中选择，不会用其他动作。',
+  '{0} starred. The Coach will pick from these, plus what your plan already uses.': '已收藏 {0} 项。教练会从这些中选择，也会从计划中已有的动作中选择。',
   'Nothing starred yet. Tap the star on an exercise in the Library, and the Coach will use those from your next plan.': '还没有收藏任何动作。在动作库中点按动作旁的星标，教练就会从下一个计划开始使用它们。',
   'No favourites yet. Tap the star on an exercise to add one.': '还没有收藏。点动作旁的星标就能加进来。',
   'No match': '没有匹配',
