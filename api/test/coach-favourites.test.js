@@ -51,6 +51,42 @@ test("the person's own exercises always travel, whitelist or not", () => {
   assert.equal(payload.librarySlice(S, [], { favOnly: true })[0].id, 'cx1');
 });
 
+test('favOnly is the person\'s whole list: their order, past the catalogue cap, uncut', () => {
+  // A starred list bigger than MAX_LIBRARY — the case the catalogue cap would cut, and the
+  // lanes would thin by body part (hardest where the person starred most).
+  const many = payload.LIBRARY.filter(e => e.eq === 'cable').map(e => e.id);
+  assert.ok(many.length > payload.MAX_LIBRARY, 'the fixture has to exceed the cap, or this proves nothing');
+  assert.ok(many.length <= payload.MAX_FAVOURITES, 'and stay inside the curated bound');
+  const slice = payload.librarySlice({ favEx: many }, ['cable'], { favOnly: true });
+  // Stretches are still skipped — the Coach does not build a plan from them — but nothing else is.
+  const kept = many.filter(id => !payload.isStretch(payload.LIBRARY.find(e => e.id === id)));
+  assert.deepEqual(slice.map(e => e.id), kept, 'the whole list, in the person\'s order');
+});
+
+test('a starred list is read in the order it was starred, not the catalogue order', () => {
+  // Same equipment, and not in catalogue order: the catalogue lists 0007 before 0148, so a
+  // catalogue-order slice would come back as the catalogue's, not this one.
+  const pick = ['0148', '0007', '0150'];
+  assert.ok(pick.every(id => (payload.LIBRARY.find(e => e.id === id) || {}).eq === 'cable'));
+  const slice = payload.librarySlice({ favEx: pick }, ['cable'], { favOnly: true });
+  assert.deepEqual(slice.map(e => e.id), pick, 'their order, not the catalogue\'s');
+});
+
+test('the lanes still run when the toggle is off, so the catalogue keeps its balance', () => {
+  const many = payload.LIBRARY.filter(e => e.eq === 'cable').map(e => e.id);
+  const slice = payload.librarySlice({ favEx: many }, ['cable'], { favOnly: false });
+  assert.equal(slice.length, payload.MAX_LIBRARY, 'the catalogue keeps its own cap');
+  // The lanes reorder by body part; a starred list does not. They must not be the same slice.
+  assert.notDeepEqual(slice.map(e => e.id), many.slice(0, payload.MAX_LIBRARY));
+});
+
+test('the curated bound still bounds a pathological list', () => {
+  const all = payload.LIBRARY.map(e => e.id);
+  assert.ok(all.length > payload.MAX_FAVOURITES, 'the catalogue has to be bigger, or this proves nothing');
+  const slice = payload.librarySlice({ favEx: all }, [], { favOnly: true });
+  assert.ok(slice.length <= payload.MAX_FAVOURITES, 'the curated bound holds');
+});
+
 test('off by default: an untouched state gets the slice it had before the feature', () => {
   assert.deepEqual(
     ids(payload.librarySlice({ favEx: someCable }, ['dumbbell'], {})),

@@ -26,13 +26,24 @@ export function equipmentAllows(equipment, id) {
 }
 
 /* ---------- the library slice the model gets to choose from ----------
-   Bounded. The whole catalogue is 1,324 rows — 10k+ tokens on every job, which costs real money
-   against a cloud API and does not fit a small local model's context at all; and a model does
-   not choose better from 1,324 options than from 160. So the slice is capped and balanced: a
-   weighted share of every body part, in catalogue order (deterministic, so repeated jobs keep
-   the same prefix), with the exercises already in the user's plan or history always included —
-   a review has to be able to name what it is talking about. */
+   Bounded. The catalogue is 5,632 rows — far more tokens on every job than a small local model
+   can hold, and a model does not choose better from thousands of options than from a hundred.
+   So the slice is capped, and balanced: a weighted share of every body part, in catalogue order
+   (deterministic, so repeated jobs keep the same prefix), with the exercises already in the
+   user's plan or history always included — a review has to be able to name what it is talking
+   about. The one case the balancing is skipped is a starred list (favOnly): see the branch in
+   librarySlice. */
 export const MAX_LIBRARY = 160;
+
+/* How many candidates a *starred* list may carry. The cap above is sized for the catalogue:
+   5,632 rows, far more than a small local model can hold, and a model does not choose better
+   from thousands of options than from a hundred. A starred list is a different thing — the
+   person already made the choice, and cutting it to 160 throws away most of it (and, run
+   through the lanes, drops whole patterns: four hammer curls in, none out). So a curated list
+   gets its own, generous bound: high enough that no realistic list meets it, low enough that a
+   pathological one cannot fill the request. The payload guard (MAX_PAYLOAD_CHARS) is the real
+   backstop, and at this size a full list is a fifth of it. */
+export const MAX_FAVOURITES = 1000;
 
 // What one library entry tells the model: enough to pick it, nothing more. The taxonomy
 // fields beyond body part never appear in a rationale and cost ~30 tokens an entry.
@@ -89,9 +100,18 @@ export function librarySlice(S, equipment, { keep = [], max = MAX_LIBRARY, favOn
   // A starred set that reaches nothing the equipment allows is not a filter worth honouring
   // either: an empty library leaves the Coach unable to propose anything at all, which is the
   // worse failure. The slice then falls back to the equipment, exactly as with the feature off.
-  const starred = favOnly ? new Set((Array.isArray(S.favEx) ? S.favEx : []).map(String)) : null;
-  const favourites = starred && starred.size ? equipped.filter(e => starred.has(e.id)) : null;
-  const pool = favourites && favourites.length ? favourites : equipped;
+  const starredIds = favOnly ? (Array.isArray(S.favEx) ? S.favEx.map(String) : []) : [];
+  // In the person's own order, not the catalogue's: this is their list, and the order they
+  // starred it in is the only order it has. Resolved through the catalogue so every entry is
+  // the real one, and through `equipped` so a favourite the equipment cannot reach stays out.
+  const favourites = starredIds.length
+    ? starredIds.map(id => equipped.find(e => e.id === id)).filter(Boolean)
+    : null;
+  // A starred set the equipment cannot reach is not a curated list — it is a list that came to
+  // nothing, and it falls back to the equipment below like every other filter that removes
+  // everything. An empty array is truthy, so this is a length test, not a truthiness one.
+  const curated = !!(favourites && favourites.length);
+  const pool = curated ? favourites : equipped;
   // Same reasoning as the equipment fallback: a filter that removed everything is not a filter
   // worth honouring. Someone whose only kit reaches nothing but stretches gets the stretches.
   const lifts = pool.filter(e => !isStretch(e));
@@ -105,6 +125,17 @@ export function librarySlice(S, equipment, { keep = [], max = MAX_LIBRARY, favOn
   for (const id of pinned) add(LIB_BY_ID.get(id));
   if (base.length + out.length <= max) {
     base.forEach(add);
+  } else if (curated) {
+    // The person starred these, so the slice is their list — in their order, and up to
+    // MAX_FAVOURITES rather than the catalogue's cap. The weighted round-robin below exists to
+    // stop a 292-row "upper arms" crowding out a 37-row "lower arms" in a catalogue of
+    // thousands; over a list somebody curated by hand it does two bad things. It recuts the
+    // very selection the toggle promised to honour, and because the lanes are weighted by what
+    // a catalogue holds, the group starred most (arms, for a cable machine) is thinned hardest
+    // while others lose nothing — whole patterns disappearing on the way, four hammer curls in
+    // and none out. Their bound is MAX_FAVOURITES; the payload guard bounds the request.
+    const curatedMax = Math.max(max, MAX_FAVOURITES);
+    for (const e of base) { if (out.length >= curatedMax) break; add(e); }
   } else {
     // Weighted round-robin across body parts, so a 292-row "upper arms" cannot crowd out a
     // 37-row "lower arms" and a 37-row "lower arms" cannot claim as much room as "chest";
