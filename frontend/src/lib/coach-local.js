@@ -89,7 +89,8 @@ export async function localStatus() {
 }
 
 export const localReview = (S, note) => start(S, 'review', { note: note ? String(note).slice(0, 1000) : null })
-export const localPlan = (S, intake) => start(S, 'create', { intake: intake || null })
+export const localPlan = (S, intake, opts = {}) =>
+  start(S, 'create', { intake: intake || null, favOnly: opts.favOnly === true })
 export const localRefine = async (S, text) => {
   const d = await loadCoachDevice()
   const pendingCreate = d.pending && d.pending.kind === 'create' ? d.pending : null
@@ -143,6 +144,11 @@ async function run(S, kind, opts, d, adapter) {
   const key = await getApiKey()
   const payload = payloadLib.build(S, {
     handle: await handle(), kind, intake: opts.intake, note: opts.note, refine: opts.refine, previous: opts.previous, workoutId: opts.workoutId,
+    // The intake screen asks about favourites and hands the answer over with the request, the
+    // same as the server path: the state's own copy may not be saved yet, and the first plan
+    // would otherwise be built without it. Undefined for a review or a debrief, and build()
+    // then reads the synced state — which is what those want.
+    favOnly: opts.favOnly,
     lang: getLang()   // what the app shows, which a profile that never picked a language does not store (#303)
   })
   const attempt = await runPipeline({
