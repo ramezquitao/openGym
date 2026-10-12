@@ -76,6 +76,9 @@ export function coachRoutes({ json, readBody, readSession, requireAdmin }) {
         const job = jobs.enqueue(user.id, {
           kind: 'create',
           intake: body.intake || null,
+          // The intake screen asks about favourites and posts the answer with the request, so the
+          // first plan honours it even if the state's own copy has not been pushed yet.
+          favOnly: body.favOnly === true,
           lang: body.lang,
           refine: body.refine ? String(body.refine).slice(0, cfgStore.MAX_MESSAGE_LEN_CEILING) : null
         });

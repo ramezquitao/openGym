@@ -36,6 +36,9 @@ const NAMESPACE_MAX = 256 * 1024
 
 export const emptyCoach = () => ({
   consent: null, profile: null, cadence: 'off', lastReview: null, log: [], snapshots: [],
+  // Whether the Coach may only propose exercises this person starred (the intake's equipment
+  // screen asks). Off unless asked for, so an existing profile is unchanged.
+  favOnly: false,
   // The conversation as the user saw it (views/CoachChat.jsx): their messages, and what the
   // Coach did with them. Short, synced, and trimmed with the log — the proposal itself lives
   // server-side (or in the phone's device file) until it is applied or dismissed.

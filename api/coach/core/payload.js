@@ -483,6 +483,12 @@ export function build(S, opts = {}) {
   if (typeof opts.handle !== 'string' || !opts.handle) throw new Error('payload.build: opts.handle is required');
   const coach = S.coach || {};
   const profile = opts.intake || coach.profile || null;
+  // Whether the Coach may only propose exercises this person starred. A job carries the answer
+  // explicitly, because the intake screen asks the question and posts the request in one go: the
+  // state's own copy reaches the server on a debounced PUT, so the first plan could otherwise be
+  // built before the answer arrived. A job without one (a review, a debrief, the phone running
+  // the Coach itself) leaves it to the synced state.
+  const favOnly = opts.favOnly != null ? opts.favOnly === true : coach.favOnly === true;
   const p = {
     coach_contract: CONTRACT,
     task: opts.kind === 'review' ? 'review' : opts.kind === 'debrief' ? 'debrief' : 'create',
@@ -554,9 +560,9 @@ export function build(S, opts = {}) {
     if (opts.note) p.userNote = String(opts.note).slice(0, MAX_NOTE_CHARS);
     if (opts.cohort) p.cohort = cleanCohort(opts.cohort);
     // A review names mostly what is already trained; 60 candidates is plenty for a swap.
-    p.library = librarySlice(S, p.coachProfile?.equipment, { keep: trainedIds(S, workouts), max: 60 });
+    p.library = librarySlice(S, p.coachProfile?.equipment, { keep: trainedIds(S, workouts), max: 60, favOnly });
   } else {
-    p.library = librarySlice(S, p.coachProfile?.equipment, { keep: trainedIds(S, S.workouts || []) });
+    p.library = librarySlice(S, p.coachProfile?.equipment, { keep: trainedIds(S, S.workouts || []), favOnly });
     // Creation for a returning user: what they have actually handled, so proposed baselines
     // start from evidence rather than optimism (B2/FR-20).
     const best = {};

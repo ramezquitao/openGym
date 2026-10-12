@@ -335,6 +335,7 @@ async function execute(job) {
     handle: handleFor(job.uid),
     kind: job.kind,
     intake: job.intake,
+    favOnly: job.favOnly,
     note: job.note,
     refine: job.refine,
     previous: pendingCreate?.bundle || null,

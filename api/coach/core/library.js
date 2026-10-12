@@ -68,7 +68,7 @@ const LANE_WEIGHT = {
 };
 const laneWeight = bp => LANE_WEIGHT[bp] ?? 1;
 
-export function librarySlice(S, equipment, { keep = [], max = MAX_LIBRARY } = {}) {
+export function librarySlice(S, equipment, { keep = [], max = MAX_LIBRARY, favOnly = false } = {}) {
   const wanted = (equipment || []).map(x => String(x).toLowerCase());
   // A custom exercise's name and body part are whatever the person typed, and its id is
   // whatever the client wrote; all three ride into every prompt. Cut to the bounds payload.js
@@ -82,10 +82,20 @@ export function librarySlice(S, equipment, { keep = [], max = MAX_LIBRARY } = {}
   // slightly larger payload.
   const filtered = wanted.length ? LIBRARY.filter(e => equipmentAllows(wanted, e.id)) : LIBRARY;
   const equipped = filtered.length ? filtered : LIBRARY;
+  // Favourites as a whitelist: the intake can ask the Coach to work only from the exercises the
+  // person starred. The pool then narrows to those — inside the equipment above, so a favourite
+  // needing kit they do not have does not come back, and their own exercises are untouched (they
+  // exist nowhere else and the model cannot guess them, which is why they always travel).
+  // A starred set that reaches nothing the equipment allows is not a filter worth honouring
+  // either: an empty library leaves the Coach unable to propose anything at all, which is the
+  // worse failure. The slice then falls back to the equipment, exactly as with the feature off.
+  const starred = favOnly ? new Set((Array.isArray(S.favEx) ? S.favEx : []).map(String)) : null;
+  const favourites = starred && starred.size ? equipped.filter(e => starred.has(e.id)) : null;
+  const pool = favourites && favourites.length ? favourites : equipped;
   // Same reasoning as the equipment fallback: a filter that removed everything is not a filter
   // worth honouring. Someone whose only kit reaches nothing but stretches gets the stretches.
-  const lifts = equipped.filter(e => !isStretch(e));
-  const base = lifts.length ? lifts : equipped;
+  const lifts = pool.filter(e => !isStretch(e));
+  const base = lifts.length ? lifts : pool;
 
   const pinned = new Set(keep.filter(id => LIB_BY_ID.has(id)));
   const out = [];

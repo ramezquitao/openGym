@@ -21,7 +21,7 @@ import { DEMO } from '../lib/demo.js'
 import { MOBILE } from '../lib/mobile.js'
 import { activeProfile } from '../lib/equipment.js'
 import Icon from '../components/Icon.jsx'
-import { Button, TextArea } from '../components/ui.jsx'
+import { Button, TextArea, Switch } from '../components/ui.jsx'
 import '../coach.css'
 
 // Each choice's text returns [title, detail] in the current language, through literal t() calls
@@ -75,8 +75,12 @@ export default function CoachIntake() {
     goal: null, experience: null, daysPerWeek: 3, preferredDays: [1, 3, 5],
     // A home gym already set up under Settings → Equipment is the best first guess here.
     sessionMin: 60, equipment: (activeProfile(S)?.equipment || []).filter(e => EQUIPMENT.includes(e)), limitations: '', likes: '', dislikes: '', notes: '',
+    favOnly: !!S.coach?.favOnly,
     ...(S.coach?.profile || {})
   }))
+  // How many exercises are starred, so the toggle can say what it will actually do — and admit
+  // when it would do nothing yet rather than promise a restriction that cannot bite.
+  const favCount = (S.favEx || []).length
   const set = patch => setP(v => ({ ...v, ...patch }))
 
   if (!coachAvailable(config, user, { demo: DEMO, mobile: MOBILE, coachMode })) { nav('/home', { replace: true }); return null }
@@ -98,10 +102,12 @@ export default function CoachIntake() {
   const finish = async () => {
     // `??`, not `||`: only a missing answer takes the default. Nought is an answer, and the clamp
     // turns it into one day like every other count below the floor.
-    const profile = { ...p, daysPerWeek: Math.min(7, Math.max(1, p.daysPerWeek ?? 3)) }
+    const { favOnly, ...rest } = p
+    const profile = { ...rest, daysPerWeek: Math.min(7, Math.max(1, p.daysPerWeek ?? 3)) }
     update(s => {
       const c = (s.coach = s.coach || emptyCoach())
       c.profile = profile
+      c.favOnly = !!favOnly
       // The conversation opens with the answers — rendered from the profile, so an edit later
       // is reflected rather than duplicated. One intake line whoever is writing it: a first-timer
       // whose plan request failed presses the button again, and must not open the thread with
@@ -111,7 +117,7 @@ export default function CoachIntake() {
     if (editing) { toast(t('Saved')); nav('/coach'); return }
     setBusy(true)
     try {
-      await requestPlan(profile)
+      await requestPlan(profile, { favOnly: !!favOnly })
       nav('/coach', { replace: true })
     } catch (e) {
       // The server's refusal is English with its class beside it; the class picks the line.
@@ -201,6 +207,15 @@ export default function CoachIntake() {
         <p className="ob-p">{t('Pick everything you have access to. Leave it empty and the Coach will use the whole library.')}</p>
         <div className="ob-chips">
           {EQUIPMENT.map(e => <button key={e} className={'chip' + (p.equipment.includes(e) ? ' on' : '')} onClick={() => toggleEq(e)}>{t(e)}</button>)}
+        </div>
+        <div className="ob-star">
+          <div className="ob-star-t">
+            <b>{t('Use only my favourites')}</b>
+            <span>{favCount
+              ? t('{0} starred. The Coach will pick from these and nothing else.', favCount)
+              : t('Nothing starred yet. Tap the star on an exercise in the Library, and the Coach will use those from your next plan.')}</span>
+          </div>
+          <Switch checked={!!p.favOnly} onChange={v => set({ favOnly: v })} aria-label={t('Use only my favourites')} />
         </div>
       </>}
 

@@ -64,6 +64,10 @@
 .ob-field .field{font-size:16px}
 .ob-note{font-size:13px;line-height:1.45;color:var(--label-2);margin-top:10px}
 .ob-note.warn{color:var(--yellow)}
+.ob-star{display:flex;align-items:center;gap:12px;margin-top:22px;padding-top:16px;border-top:var(--hair) solid var(--sep-op)}
+.ob-star-t{flex:1;min-width:0}
+.ob-star-t b{display:block;font-size:15px;letter-spacing:-.006em}
+.ob-star-t span{display:block;font-size:13px;line-height:1.4;color:var(--label-2);margin-top:2px}
 .ob-consent{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
 .ob-consent-row{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border-radius:var(--r-lg);padding:13px 15px}
 .ob-consent-row .icn{color:var(--acc);font-size:19px;flex:none;margin-top:2px}
