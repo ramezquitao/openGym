@@ -243,6 +243,13 @@ export function enqueue(uid, opts) {
     trigger: opts.trigger || 'manual',                // 'manual' | 'scheduled'
     workoutId: opts.workoutId ? String(opts.workoutId).slice(0, 40) : null,
     intake: opts.intake || null,
+    // The intake screen asks about favourites and posts the answer with the request, so it has
+    // to survive the trip through the queue: the state's own copy reaches the server on a
+    // debounced PUT, and a job that dropped the answer would build the first plan from whatever
+    // the state happened to hold — the very race the request-carried answer exists to close.
+    // `undefined` for a job that carries none (a review, a debrief, a scheduled run), which
+    // falls through to the synced state in payload.build; `false` is a real answer.
+    favOnly: typeof opts.favOnly === 'boolean' ? opts.favOnly : undefined,
     note: clampMessage(opts.note),
     refine: clampMessage(opts.refine),
     lang: payloadLib.langTag(opts.lang),              // the language the app was showing (#303)
